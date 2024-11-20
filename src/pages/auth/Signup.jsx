@@ -2,6 +2,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import { registerFormControls } from "../../config";
 import { CommonForm } from "../../components/common/form";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const initialState = {
   userName: "",
@@ -32,12 +33,9 @@ export function AuthSignup() {
       />
       <Typography color="gray" className="mt-4 text-center font-normal">
         Already have an account?
-        <a
-          href="/Olx-app-Clone/auth/login"
-          className="font-medium text-gray-900 ml-1"
-        >
-          Sign In
-        </a>
+        <Link to="/auth/login" className="font-medium text-gray-900 ml-1">
+          signin
+        </Link>
       </Typography>
     </form>
   );
