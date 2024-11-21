@@ -1,8 +1,9 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import { CommonForm } from "../../components/common/form";
 import { loginFormControls } from "../../config";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../store/ContextAuth";
 
 const initialState = {
   email: "",
@@ -10,8 +11,23 @@ const initialState = {
 };
 
 export function AuthLogin() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(initialState);
-  function onSubmit() {}
+  const { firebaseApp } = useContext(AuthContext);
+
+  function onSubmit(e) {
+    e.preventDefault();
+    const { email, password, userName } = formData;
+
+    firebaseApp.auth().signInWithEmailAndPassword(email, password).then(()=>{
+      console.log('Logged In')
+    }).then(()=>{
+      navigate('/')
+    })
+    .catch((error)=>{
+      alert(error.message)
+    })
+  }
 
   return (
     <form onSubmit={onSubmit} className="mt-8 mb-2 max-w-64 sm:max-w-80 ">

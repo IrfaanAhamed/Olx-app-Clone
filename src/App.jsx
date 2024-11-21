@@ -1,12 +1,13 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-
 import MainRoutes from "./Routes/MainRoutes";
+import ContextAuth from "./store/ContextAuth";
 
 function App() {
   return (
     <>
-      <MainRoutes />
+      <ContextAuth>
+        <MainRoutes />
+      </ContextAuth>
     </>
   );
 }

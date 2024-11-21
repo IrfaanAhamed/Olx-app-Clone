@@ -1,8 +1,9 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import { registerFormControls } from "../../config";
 import { CommonForm } from "../../components/common/form";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../store/ContextAuth";
 
 const initialState = {
   userName: "",
@@ -11,10 +12,54 @@ const initialState = {
 };
 
 export function AuthSignup() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(initialState);
+  const { firebaseApp } = useContext(AuthContext);
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    const { email, password, userName } = formData;
+
+    // Validation
+    if (!email || !password || !userName) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Firebase Authentication
+    firebaseApp
+      .auth()
+      .createUserWithEmailAndPassword(email, password) //creating account using email & pass
+      .then((result) => {
+        //create cheyda accountil <- username updating
+        result.user.updateProfile({ displayName: userName }).then(() => {
+          firebaseApp
+            .firestore()// Add user details to Firestore
+            .collection("user")
+            .add({
+              id: result.user.uid,
+              userName: userName
+            })
+            .then(() => {
+              alert("Account created successfully! Redirecting to login.");
+              navigate("/auth/login");
+            })
+            .catch((firestoreError) => {
+              console.error("Error adding user to Firestore:", firestoreError);
+              alert("An error occurred while saving your data.");
+            });
+        });
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          alert(
+            "The email address is already in use. Please use a different email."
+          );
+        } else {
+          console.error("Error creating user:", error);
+          alert(error.message);
+        }
+      });
   };
 
   return (

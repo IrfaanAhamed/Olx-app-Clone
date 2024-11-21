@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   Menu,
   MenuHandler,
@@ -6,17 +6,24 @@ import {
   MenuItem,
   Button,
   Typography,
-  Input
+  Input,
+  Avatar,
+  Progress
 } from "@material-tailwind/react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
-import Logo from "./Logo";
+import { HeaderButtons, Logo } from "./datas";
 import { FaPlus } from "react-icons/fa";
+import { AuthContext } from "../../store/ContextAuth";
+import { Link } from "react-router-dom";
+import userImg from "../../assets/images/user.png";
 
 function Header() {
-  const [openLocation, setOpenLocation] = React.useState(false);
-  const [openLang, setOpenLang] = React.useState(false);
+  const { user, firebaseApp } = useContext(AuthContext);
+  const [openLocation, setOpenLocation] = useState(false);
+  const [openLang, setOpenLang] = useState(false);
+
   return (
     <div className=" w-full sm:h-[68px] h-[136px] flex flex-col sm:flex-row  bg-primary border border-b-4 border-white px-3 py-2">
       <div className="flex items-center basis-1/4 sm:justify-start justify-between">
@@ -76,12 +83,59 @@ function Header() {
             <MenuItem>English</MenuItem>
           </MenuList>
         </Menu>
-        <a
-          href="/Olx-app-Clone/auth/login"
-          className="font-medium underline underline-offset-4 hover:no-underline text-lg"
-        >
-          Login
-        </a>
+
+        {user ? (
+          <Menu>
+            <MenuHandler>
+              <Avatar
+                size="sm"
+                alt="avatar"
+                src={userImg}
+                className="border border-white shadow-md shadow-green-900/20 ring-2 ring-cyan"
+              />
+            </MenuHandler>
+            <MenuList>
+              <MenuItem className="flex items-center gap-2 flex-col max-w-72 hover:bg-white bg-white text-black">
+                <div className="flex items-center justify-start w-full my-2">
+                  <Avatar
+                    size="lg"
+                    alt="avatar"
+                    src={userImg}
+                    className="border mx-2 border-white shadow-xl shadow-green-900/20 ring-2 ring-cyan"
+                  />
+                  <h4 className="font-extrabold text-lg ml-2">
+                    {user.displayName}
+                  </h4>
+                </div>
+
+                <Button className="w-full text-sm font-bold hover:bg-white hover:text-black hover:outline">
+                  View and edit profile
+                </Button>
+                <div className="space-y-2">
+                  <h3 className="font-extrabold text-sm">1 step left</h3>
+                  <Progress value={80} color="amber" />
+
+                  <p className="text-xs text-slate-500">
+                    We are built on trust. Help one another to get to know each
+                    other better.
+                  </p>
+                  <hr />
+                </div>
+                <div className="w-full">
+                  <HeaderButtons />
+                </div>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        ) : (
+          <Link
+            to={"/auth/login"}
+            className={`font-medium underline underline-offset-4 hover:no-underline text-lg `}
+          >
+            Login
+          </Link>
+        )}
+
         <div className="flex items-center">
           <Button className="relative text-secondary font-extrabold rounded-full bg-white p-1 sm:p-3 py-4">
             <span
