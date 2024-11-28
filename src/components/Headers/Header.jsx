@@ -137,21 +137,23 @@ function Header() {
         )}
 
         <div className="flex items-center">
-          <Button className="relative text-secondary font-extrabold rounded-full bg-white p-1 sm:p-3 py-4">
-            <span
-              className=" cursor-pointer
+          <Link to={"/post"}>
+            <Button className="relative text-secondary font-extrabold rounded-full bg-white p-1 sm:p-3 py-4">
+              <span
+                className=" cursor-pointer
               before:absolute before:inset-1 before:rounded-full
               before:border-[6px] before:border-t-yellow-400
-            before:border-r-teal-400 before:border-b-blue-500 before:border-l-yellow-400"
-            />
+              before:border-r-teal-400 before:border-b-blue-500 before:border-l-yellow-400"
+              />
 
-            <div className=" flex text-sm items-center hover:scale-100 space-x-1 px-3 rounded-full">
-              <FaPlus className="" />
-              <span className="font-extrabold text-xs hidden sm:block">
-                SELL
-              </span>
-            </div>
-          </Button>
+              <div className=" flex text-sm items-center hover:scale-100 space-x-1 px-3 rounded-full">
+                <FaPlus className="" />
+                <span className="font-extrabold text-xs hidden sm:block">
+                  SELL
+                </span>
+              </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

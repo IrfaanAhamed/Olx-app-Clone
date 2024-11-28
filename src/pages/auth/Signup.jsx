@@ -1,4 +1,4 @@
-import { Typography } from "@material-tailwind/react";
+import { Alert, Typography } from "@material-tailwind/react";
 import { registerFormControls } from "../../config";
 import { CommonForm } from "../../components/common/form";
 import { useState, useContext } from "react";
@@ -13,6 +13,7 @@ const initialState = {
 
 export function AuthSignup() {
   const navigate = useNavigate();
+  const [alertMessage, setAlertMessage] = useState(null);
   const [formData, setFormData] = useState(initialState);
   const { firebaseApp } = useContext(AuthContext);
   const onSubmit = (e) => {
@@ -22,7 +23,7 @@ export function AuthSignup() {
 
     // Validation
     if (!email || !password || !userName) {
-      alert("Please fill in all fields.");
+      setAlertMessage("Please fill in all fields.");
       return;
     }
 
@@ -34,46 +35,57 @@ export function AuthSignup() {
         //create cheyda accountil <- username updating
         result.user.updateProfile({ displayName: userName }).then(() => {
           firebaseApp
-            .firestore()// Add user details to Firestore
+            .firestore() // Add user details to Firestore
             .collection("user")
             .add({
               id: result.user.uid,
               userName: userName
             })
             .then(() => {
-              alert("Account created successfully! Redirecting to login.");
+              setAlertMessage(
+                "Account created successfully! Redirecting to login."
+              );
               navigate("/auth/login");
             })
             .catch((firestoreError) => {
               console.error("Error adding user to Firestore:", firestoreError);
-              alert("An error occurred while saving your data.");
+              setAlertMessage("An error occurred while saving your data.");
             });
         });
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
-          alert(
+          setAlertMessage(
             "The email address is already in use. Please use a different email."
           );
         } else {
           console.error("Error creating user:", error);
-          alert(error.message);
+          setAlertMessage(error.message);
         }
       });
   };
 
   return (
-    <form onSubmit={onSubmit} className="mt-8 mb-2 max-w-56 sm:max-w-80">
+    <form
+      onSubmit={onSubmit}
+      className="mt-8 mb-2 px-5 mx-2 py-9 rounded-xl bg-primary shadow-lg"
+    >
       <Typography variant="h4" color="blue-gray">
         Sign Up
       </Typography>
       <Typography color="gray" className="mt-1 font-normal">
         Nice to meet you! Enter your details to register.
       </Typography>
+      {alertMessage && (
+        <Alert className="mt-4 w-full"  color="red">
+          {alertMessage}
+        </Alert>
+      )}
+
       <CommonForm
         formControls={registerFormControls}
         formData={formData}
-        buttonText={"Login"}
+        buttonText={"signup"}
         setFormData={setFormData}
       />
       <Typography color="gray" className="mt-4 text-center font-normal">

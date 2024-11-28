@@ -10,11 +10,7 @@ function AuthLayout() {
           <h1 className="text-7xl font-bold tracking-wide">OLX</h1>
         </div>
       </div>
-      <div
-        className="flex flex-1 items-center justify-center 
-      bg-primary mx-6 my-16 sm:my-12 sm:mx-6 m-0 lg:mx-28 rounded-2xl
-      "
-      >
+      <div className="flex flex-1 items-center justify-center  ">
         {/* https://www.material-tailwind.com/docs/react/form# */}
         <Card color="transparent" shadow={false}>
           <Outlet />
