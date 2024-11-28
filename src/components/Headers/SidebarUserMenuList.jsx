@@ -14,7 +14,7 @@ function SidebarMenuList() {
             size="lg"
             alt="avatar"
             src={userImg}
-            className="border mx-2 border-white shadow-xl shadow-green-900/20 ring-2 ring-cyan"
+            className="border mx-2 border-white shadow-xl shadow-green-900/20 ring-4 ring-secondary/30"
           />
           <h4 className="font-extrabold text-lg ml-2">
             {user?.displayName}

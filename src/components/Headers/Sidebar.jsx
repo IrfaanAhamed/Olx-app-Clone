@@ -12,7 +12,7 @@ function Sidebar() {
             size="sm"
             alt="avatar"
             src={userImg}
-            className="border border-white shadow-md shadow-green-900/20 ring-2 ring-cyan"
+            className="border border-white shadow-md shadow-green-900/20 ring-2 ring-secondary/40"
           />
         </MenuHandler>
         <MenuList>

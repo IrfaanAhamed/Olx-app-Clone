@@ -1,9 +1,10 @@
-import { Alert, Typography } from "@material-tailwind/react";
+import { Alert, Button, Typography } from "@material-tailwind/react";
 import { registerFormControls } from "../../config";
 import { CommonForm } from "../../components/common/form";
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../store/ContextAuth";
+import { ContinueWithBTN } from "../../components/auth/datas";
 
 const initialState = {
   userName: "",
@@ -68,32 +69,70 @@ export function AuthSignup() {
   return (
     <form
       onSubmit={onSubmit}
-      className="mt-8 mb-2 px-5 mx-2 py-9 rounded-xl bg-primary shadow-lg"
+      className=" p-5  rounded-xl bg-primary 
+    shadow-lg flex items-center flex-col sm:flex-row w-full"
     >
-      <Typography variant="h4" color="blue-gray">
-        Sign Up
-      </Typography>
-      <Typography color="gray" className="mt-1 font-normal">
-        Nice to meet you! Enter your details to register.
-      </Typography>
-      {alertMessage && (
-        <Alert className="mt-4 w-full"  color="red">
-          {alertMessage}
-        </Alert>
-      )}
+      <div className="sm:w-1/2 w-full">
+        <Typography variant="h4" color="blue-gray">
+          Sign Up
+        </Typography>
+        <Typography color="gray" className="mt-1 font-normal">
+          Nice to meet you! Enter your details to register.
+        </Typography>
+        {alertMessage && (
+          <Alert className="mt-4 w-full" color="red">
+            {alertMessage}
+          </Alert>
+        )}
 
-      <CommonForm
-        formControls={registerFormControls}
-        formData={formData}
-        buttonText={"signup"}
-        setFormData={setFormData}
-      />
-      <Typography color="gray" className="mt-4 text-center font-normal">
-        Already have an account?
-        <Link to="/auth/login" className="font-medium text-gray-900 ml-1">
-          signin
-        </Link>
-      </Typography>
+        <CommonForm
+          formControls={registerFormControls}
+          formData={formData}
+          buttonText={"signup"}
+          setFormData={setFormData}
+        />
+        <Typography color="gray" className="mt-4 text-center font-normal">
+          Already have an account?
+          <Link to="/auth/login" className="font-medium text-gray-900 ml-1">
+            signin
+          </Link>
+        </Typography>
+      </div>
+        <div className="flex items-center my-2">
+          <div className="flex-grow border-t border-gray-300 sm:hidden"></div>
+          <span className="mx-2 text-gray-500">OR</span>
+          <div className="flex-grow border-t border-gray-300 sm:hidden"></div>
+        </div>
+      <div className="flex flex-col gap-3 sm:w-1/2">
+        {ContinueWithBTN.map((item, i) => (
+          <Button
+            key={i}
+            size="lg"
+            variant="outlined"
+            color="blue-gray"
+            className="flex items-center gap-3 justify-center"
+          >
+            <img src={item.img} alt={item.title} className="h-6 " />
+            {item.title}
+          </Button>
+        ))}
+        <Typography className="text-sm">
+          By clicking Sign in, Continue with Google, Facebook, or Apple, you
+          agree to Etsy's{" "}
+          <a className="font-bold text-blue-600 underline" href="">
+            Terms of Use
+          </a>{" "}
+          and{" "}
+          <a className="font-bold text-blue-600 underline" href="">
+            Privacy Policy
+          </a>
+          .
+        </Typography>
+        <Typography className="text-xs">
+          Etsy may send you communications; you may change your preferences in
+          your account settings. We'll never post without your permission.
+        </Typography>
+      </div>
     </form>
   );
 }
