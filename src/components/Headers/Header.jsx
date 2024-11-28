@@ -7,50 +7,90 @@ import {
   Button,
   Typography,
   Input,
-  Avatar,
-  Progress
+  IconButton,
+  Collapse
 } from "@material-tailwind/react";
+import { FaBars } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
-import { HeaderButtons, Logo } from "./datas";
+import { Logo } from "./datas";
 import { FaPlus } from "react-icons/fa";
 import { AuthContext } from "../../store/ContextAuth";
 import { Link } from "react-router-dom";
-import userImg from "../../assets/images/user.png";
+import Sidebar from "./Sidebar";
+import SidebarMenuList from "./SidebarUserMenuList";
+import SidebarWithoutUser from "./SidebarWithoutUser";
 
 function Header() {
-  const { user, firebaseApp } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [openLocation, setOpenLocation] = useState(false);
   const [openLang, setOpenLang] = useState(false);
 
+  //sidebar
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const toggleSidebar = () => setOpenSidebar((prev) => !prev);
+
   return (
-    <div className=" w-full sm:h-[68px] h-[136px] flex flex-col sm:flex-row  bg-primary border border-b-4 border-white px-3 py-2">
+    <div className="w-full  sm:h-[68px] h-[136px] flex flex-col sm:flex-row relative bg-primary border border-b-4 border-white px-3 py-2">
       <div className="flex items-center basis-1/4 sm:justify-start justify-between">
-        <Logo />
-        <Menu open={openLocation} handler={setOpenLocation}>
-          <MenuHandler
-            className="sm:bg-white text-secondary flex items-center sm:w-full justify-between px-2 h-full py-0 ml-3
+        <div className="sm:hidden flex items-center">
+          <IconButton
+            ripple={false}
+            variant="text"
+            size="md"
+            className="focus:bg-cyan-200 rounded-full"
+            onClick={toggleSidebar}
+          >
+            {openSidebar ? (
+              <RxCross2 className="h-7 w-7" />
+            ) : (
+              <FaBars className="h-6 w-6 " />
+            )}
+          </IconButton>
+
+          <Collapse
+            className={`absolute left-0 top-[56px] w-full duration-300 ease-in-out z-20 bg-white ${
+              openSidebar ? "translate-x-0" : "-translate-x-full"
+            }`}
+            open={openSidebar}
+          >
+           {user? <SidebarMenuList /> :<SidebarWithoutUser/>} 
+          </Collapse>
+
+          <Logo />
+        </div>
+        <span className="sm:block hidden">
+          <Logo />
+        </span>
+        {!openSidebar ? (
+          <Menu className="" open={openLocation} handler={setOpenLocation}>
+            <MenuHandler
+              className="sm:bg-white text-secondary flex items-center sm:w-full justify-between px-2 h-full py-0 ml-3
             rounded-sm focus:border-2 focus:border-cyan-400 relative sm:border-2 border-0 shadow-none bg-transparent 
           sm:border-secondary"
-          >
-            <Button className="flex items-center  gap-2 bg-white text-gray-700">
-              <IoSearchOutline className="w-5 h-5 sm:block hidden" />
-              <CiLocationOn className="w-5 h-5 block sm:hidden" />
-              <Typography className="">India</Typography>
-              <IoIosArrowDown
-                className={`h-6 w-6 transition-transform sm:block hidden ${
-                  openLocation ? "rotate-180" : ""
-                }`}
-              />
-            </Button>
-          </MenuHandler>
-          <MenuList>
-            <MenuItem>Menu Item 1</MenuItem>
-            <MenuItem>Menu Item 2</MenuItem>
-            <MenuItem>Menu Item 3</MenuItem>
-          </MenuList>
-        </Menu>
+            >
+              <Button className="flex items-center  gap-2 bg-white text-gray-700">
+                <IoSearchOutline className="w-5 h-5 sm:block hidden" />
+                <CiLocationOn className="w-5 h-5 block sm:hidden" />
+                <Typography className="">India</Typography>
+                <IoIosArrowDown
+                  className={`h-6 w-6 transition-transform sm:block hidden ${
+                    openLocation ? "rotate-180" : ""
+                  }`}
+                />
+              </Button>
+            </MenuHandler>
+            <MenuList>
+              <MenuItem>Menu Item 1</MenuItem>
+              <MenuItem>Menu Item 2</MenuItem>
+              <MenuItem>Menu Item 3</MenuItem>
+            </MenuList>
+          </Menu>
+        ) : (
+          ""
+        )}
       </div>
       <div className="basis-[40%] sm:mx-2 flex relative items-center ">
         <Input
@@ -85,48 +125,7 @@ function Header() {
         </Menu>
 
         {user ? (
-          <Menu>
-            <MenuHandler>
-              <Avatar
-                size="sm"
-                alt="avatar"
-                src={userImg}
-                className="border border-white shadow-md shadow-green-900/20 ring-2 ring-cyan"
-              />
-            </MenuHandler>
-            <MenuList>
-              <MenuItem className="flex items-center gap-2 flex-col max-w-72 hover:bg-white bg-white text-black">
-                <div className="flex items-center justify-start w-full my-2">
-                  <Avatar
-                    size="lg"
-                    alt="avatar"
-                    src={userImg}
-                    className="border mx-2 border-white shadow-xl shadow-green-900/20 ring-2 ring-cyan"
-                  />
-                  <h4 className="font-extrabold text-lg ml-2">
-                    {user.displayName}
-                  </h4>
-                </div>
-
-                <Button className="w-full text-sm font-bold hover:bg-white hover:text-black hover:outline">
-                  View and edit profile
-                </Button>
-                <div className="space-y-2">
-                  <h3 className="font-extrabold text-sm">1 step left</h3>
-                  <Progress value={80} color="amber" />
-
-                  <p className="text-xs text-slate-500">
-                    We are built on trust. Help one another to get to know each
-                    other better.
-                  </p>
-                  <hr />
-                </div>
-                <div className="w-full">
-                  <HeaderButtons />
-                </div>
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <Sidebar />
         ) : (
           <Link
             to={"/auth/login"}
