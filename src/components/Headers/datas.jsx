@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
-import { CiLogout, CiSettings, CiViewBoard } from "react-icons/ci";
-import { FaRegHeart } from "react-icons/fa";
-import { LuClipboardList } from "react-icons/lu";
-import { MdOutlineHelpOutline } from "react-icons/md";
-import { AuthContext } from "../../store/ContextAuth";
+import React from "react";
+import { Button } from "@material-tailwind/react";
+import { FaPlus } from "react-icons/fa6";
 
 export function Logo() {
   return (
@@ -24,3 +21,17 @@ export function Logo() {
     </div>
   );
 }
+export const SellBTN = () => {
+  return (
+    <Button className="relative text-secondary font-extrabold sm:shadow-none shadow-xl h-16 w-16 sm:h-11 sm:w-24  rounded-full bg-white p-1 sm:p-3 py-4">
+      <span
+        className=" cursor-pointer before:absolute before:inset-1 before:rounded-full before:border-[6px]
+      before:border-t-yellow-400 before:border-r-teal-400 before:border-b-blue-500 before:border-l-yellow-400"
+      />
+      <div className=" flex text-2xl sm:text-sm sm:gap-1 justify-center hover:scale-100 space-x-1 px-3 rounded-full">
+        <FaPlus className="" />
+        <span className="font-extrabold text-xs hidden sm:block">SELL</span>
+      </div>
+    </Button>
+  );
+};

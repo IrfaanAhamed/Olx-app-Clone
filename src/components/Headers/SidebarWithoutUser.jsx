@@ -13,7 +13,7 @@ function SidebarWithoutUser() {
   };
   return (
     <>
-      <MenuItem className="flex items-center gap-2 flex-col max-w-full hover:bg-white bg-white text-black">
+      <MenuItem className="flex items-center gap-2 flex-col max-w-full hover:bg-white bg-white h-screen text-black">
         <div className="flex items-center justify-start w-full my-2">
           <img className="h-20" src={userImg} alt="user" />
           <div className="pl-2">

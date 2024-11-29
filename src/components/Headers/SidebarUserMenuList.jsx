@@ -8,7 +8,7 @@ function SidebarMenuList() {
   const { user } = useContext(AuthContext);
   return (
     <>
-      <MenuItem className="flex items-center gap-2 flex-col max-w-full hover:bg-white bg-white text-black">
+      <MenuItem className="flex items-center gap-2 flex-col max-w-full bg-white h-screen hover:bg-white  text-black">
         <div className="flex items-center justify-start w-full my-2">
           <Avatar
             size="lg"
