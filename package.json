@@ -1,6 +1,6 @@
 {
   "homepage": "https://Irfan-Ahammed.github.io/Olx-app-Clone/",
-  "name": "olx-app-clone",
+  "name": "olx",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,9 +10,16 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "build-android": "npx cap sync android && cd android && ./gradlew assembleDebug && cd ..",
+    "install-android": "npx cap sync android && cd android && ./gradlew assembleDebug && ./gradlew installDebug && cd .."
   },
   "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/app": "^6.0.2",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/ios": "^6.2.0",
     "@material-tailwind/react": "^2.1.10",
     "@tailwindcss/typography": "^0.5.15",
     "firebase": "^11.0.2",

@@ -135,14 +135,14 @@ function Header() {
         )}
 
         <div className="flex items-center">
-          <Link to={"/post"}>
+          <Link to={user ? "/post" : "/auth/login"}>
             <SellBTN />
           </Link>
         </div>
       </div>
       <Link
         className="fixed bottom-9 left-0 w-full text-center sm:hidden"
-        to={"/post"}
+        to={user ? "/post" : "/auth/login"}
       >
         <SellBTN />
       </Link>

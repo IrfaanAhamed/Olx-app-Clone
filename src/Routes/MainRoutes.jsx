@@ -5,7 +5,7 @@ import AuthLayout from "../components/auth/layout";
 import { AuthLogin } from "../pages/auth/Login";
 import { AuthSignup } from "../pages/auth/Signup";
 import { AuthContext } from "../store/ContextAuth";
-import Post from "../pages/Post";
+import Post from "../pages/post/Post";
 function MainRoutes() {
   const { setUser, firebaseApp } = useContext(AuthContext);
 
@@ -23,7 +23,7 @@ function MainRoutes() {
           <Route path="login" element={<AuthLogin />} />
           <Route path="signup" element={<AuthSignup />} />
         </Route>
-          <Route path="/post" element={<Post />} />
+        <Route path="/post" element={<Post />} />
       </Routes>
     </Router>
   );
